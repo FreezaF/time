@@ -25,8 +25,16 @@
   }
 
   .colorSelectorWrapper {
-    position: relative;
-    margin-top: 20px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .colorSelectorWrapper label {
+    margin-right: 10px;
   }
 
   .colorSelector {
@@ -43,14 +51,6 @@
   .colorLabels {
     color: #777;
     font-size: 14px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .colorLabels label {
-    cursor: pointer;
-    position: relative;
-    margin-right: 10px;
   }
 </style>
 </head>
