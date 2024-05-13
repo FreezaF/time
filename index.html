@@ -24,17 +24,17 @@
     color: #000000;
   }
 
-  .colorSelectorWrapper {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+   .colorSelectors {
+    position: absolute; /* Absolute positioning */
+    bottom: 10px; /* 10px from the bottom */
+    right: 10px; /* 10px from the right */
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: row; /* Arrange buttons side by side */
   }
 
-  .colorSelectorWrapper label {
-    margin-right: 10px;
+  .colorSelectorWrapper {
+    position: relative;
+    margin-right: 10px; /* Add some space between buttons */
   }
 
   .colorSelector {
@@ -49,21 +49,34 @@
   }
 
   .colorLabels {
-    color: #777;
-    font-size: 14px;
+    position: absolute; /* Absolute positioning */
+    bottom: 70px; /* Adjusted for label width and button height */
+    right: 10px; /* 10px from the right */
+    color: #777; /* Label color */
+    font-size: 14px; /* Label font size */
+    display: flex;
+    flex-direction: row; /* Arrange labels side by side */
+  }
+
+  .colorLabels label {
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px; /* Add some space between labels */
   }
 </style>
 </head>
 <body>
 <div id="currentTime"></div>
 
-<div class="colorSelectorWrapper">
-  <label for="textColor" class="colorLabels">Text Color</label>
-  <input type="color" class="colorSelector" id="textColor" value="#000000">
-</div>
-<div class="colorSelectorWrapper">
-  <label for="bgColor" class="colorLabels">Background Color</label>
-  <input type="color" class="colorSelector" id="bgColor" value="#f0f0f0">
+<div class="colorSelectors">
+  <div class="colorSelectorWrapper">
+    <label for="textColor" class="colorLabels" id="textLabel">TXT</label>
+    <input type="color" class="colorSelector" id="textColor" value="#000000">
+  </div>
+  <div class="colorSelectorWrapper">
+    <label for="bgColor" class="colorLabels" id="bgLabel">BG</label>
+    <input type="color" class="colorSelector" id="bgColor" value="#f0f0f0">
+  </div>
 </div>
 
 <script>
@@ -84,14 +97,18 @@ function updateColors() {
 
 updateColors();
 
-setInterval(function() {
+function updateTime() {
   var now = new Date();
   var hours = now.getHours();
   var minutes = now.getMinutes();
   var seconds = now.getSeconds();
   var timeString = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
   document.getElementById("currentTime").textContent = timeString;
-}, 1000);
+}
+
+updateTime();
+
+setInterval(updateTime, 1000);
 
 function formatTime(time) {
   return time < 10 ? "0" + time : time;
