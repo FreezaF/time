@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Current Time</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    position: relative;
+    font-family: Arial, sans-serif;
+  }
+
+  #currentTime {
+    font-size: 5vw;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+  }
+
+  .colorSelectorWrapper {
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .colorSelector {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+  }
+
+  .colorLabels {
+    color: #777;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .colorLabels label {
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+  }
+</style>
+</head>
+<body>
+<div id="currentTime"></div>
+
+<div class="colorSelectorWrapper">
+  <label for="textColor" class="colorLabels">Text Color</label>
+  <input type="color" class="colorSelector" id="textColor" value="#000000">
+</div>
+<div class="colorSelectorWrapper">
+  <label for="bgColor" class="colorLabels">Background Color</label>
+  <input type="color" class="colorSelector" id="bgColor" value="#f0f0f0">
+</div>
+
+<script>
+function setColors(textColor, bgColor) {
+  document.getElementById("currentTime").style.color = textColor;
+  document.body.style.backgroundColor = bgColor;
+}
+
+function updateColors() {
+  var savedTextColor = localStorage.getItem("textColor");
+  var savedBgColor = localStorage.getItem("bgColor");
+  if (savedTextColor && savedBgColor) {
+    document.getElementById("textColor").value = savedTextColor;
+    document.getElementById("bgColor").value = savedBgColor;
+    setColors(savedTextColor, savedBgColor);
+  }
+}
+
+updateColors();
+
+setInterval(function() {
+  var now = new Date();
+  var hours = now.getHours();
+  var minutes = now.getMinutes();
+  var seconds = now.getSeconds();
+  var timeString = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+  document.getElementById("currentTime").textContent = timeString;
+}, 1000);
+
+function formatTime(time) {
+  return time < 10 ? "0" + time : time;
+}
+
+document.getElementById("textColor").addEventListener("input", function() {
+  var textColor = this.value;
+  var bgColor = document.getElementById("bgColor").value;
+  setColors(textColor, bgColor);
+  localStorage.setItem("textColor", textColor);
+});
+
+document.getElementById("bgColor").addEventListener("input", function() {
+  var textColor = document.getElementById("textColor").value;
+  var bgColor = this.value;
+  setColors(textColor, bgColor);
+  localStorage.setItem("bgColor", bgColor);
+});
+
+</script>
+
+</body>
+</html>
